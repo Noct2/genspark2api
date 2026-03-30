@@ -907,6 +907,7 @@ func handleStreamRequest(c *gin.Context, client cycletls.CycleTLS, cookie string
 				}
 
 				data := response.Data
+				fmt.Println(">>> RAW DATA FROM GENSPARK (CHAT):", data)
 				if data == "" {
 					continue
 				}
@@ -1307,6 +1308,7 @@ func handleNonStreamRequest(c *gin.Context, client cycletls.CycleTLS, cookie str
 			case strings.HasPrefix(line, "data: "):
 
 				data := strings.TrimPrefix(line, "data: ")
+				fmt.Println(">>> RAW DATA FROM GENSPARK (CHAT):", data)
 				var parsedResponse struct {
 					Type      string `json:"type"`
 					FieldName string `json:"field_name"`
@@ -1638,6 +1640,7 @@ func ImageProcess(c *gin.Context, client cycletls.CycleTLS, openAIReq model.Open
 				URL:           url,
 				RevisedPrompt: openAIReq.Prompt,
 			}
+			fmt.Println(">>> RAW DATA FROM GENSPARK (IMAGE):", data)
 
 			if openAIReq.ResponseFormat == "b64_json" {
 				base64Str, err := getBase64ByUrl(data.URL)
@@ -1766,6 +1769,7 @@ func pollTaskStatus(c *gin.Context, client cycletls.CycleTLS, taskIDs []string, 
 		}
 
 		data := response.Data
+		fmt.Println(">>> RAW DATA FROM GENSPARK (CHAT):", data)
 		if data == "" {
 			continue
 		}
