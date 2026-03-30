@@ -116,6 +116,7 @@ func ChatForOpenAI(c *gin.Context) {
 			return
 		} else {
 			data := resp.Data
+			fmt.Println(">>> RAW DATA FROM GENSPARK:", data)
 			var content []string
 			for _, item := range data {
 				content = append(content, fmt.Sprintf("![Image](%s)", item.URL))
