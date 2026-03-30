@@ -1262,6 +1262,7 @@ func handleNonStreamRequest(c *gin.Context, client cycletls.CycleTLS, cookie str
 
 		for scanner.Scan() {
 			line := scanner.Text()
+			fmt.Println(">>> ABSOLUTE RAW LINE:", line)
 			if firstLine == "" {
 				firstLine = line
 			}
@@ -1679,6 +1680,7 @@ func extractTaskIDs(responseBody string) (string, []string) {
 	// 分行处理响应
 	lines := strings.Split(responseBody, "\n")
 	for _, line := range lines {
+		fmt.Println(">>> ABSOLUTE RAW LINE:", line)
 
 		// 找到包含project_id的行
 		if strings.Contains(line, "project_start") {
