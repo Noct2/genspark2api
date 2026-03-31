@@ -374,20 +374,16 @@ func createRequestBody(c *gin.Context, client cycletls.CycleTLS, cookie string, 
 
 	// 创建请求体
 	requestBody := map[string]interface{}{
-		"type": "COPILOT_MOA_IMAGE",
+		"type":                 chatType,
 		"current_query_string": currentQueryString,
-		"messages":             messages,
-		"user_s_input":         openAIReq.Prompt,
+		"messages":             openAIReq.Messages,
 		"action_params":        map[string]interface{}{},
 		"extra_data": map[string]interface{}{
-			"models":                 modelConfigs,
-			"llm_model":      "gpt-4o", // ここを空文字にしてみるか、モデル名を合わせる
-			"imageModelMap":  map[string]interface{}{
-				"is_image_gen": true, // 画像生成であることを明示
-			},
+			"models":                 models,
+			"run_with_another_model": false,
 			"writingContent":         nil,
+			"request_web_knowledge":  requestWebKnowledge,
 		},
-		"g_recaptcha_token": "",
 	}
 
 	logger.Debug(c.Request.Context(), fmt.Sprintf("RequestBody: %v", requestBody))
@@ -404,7 +400,7 @@ func createImageRequestBody(c *gin.Context, cookie string, openAIReq *model.Open
 	modelConfigs := []map[string]interface{}{
 		{
 			"model":                   openAIReq.Model,
-			"aspect_ratio":            "1:1",
+			"aspect_ratio":            "auto",
 			"use_personalized_models": false,
 			"fashion_profile_id":      nil,
 			"hd":                      false,
